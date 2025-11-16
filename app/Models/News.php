@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class News extends Model
+{
+    use HasFactory;
+
+    public $timestamps = true;
+
+    protected $fillable = [
+        'title',
+        'content',
+        'image',
+        'published_date',
+        'status'
+    ];
+
+    protected $casts = [
+        'published_date' => 'date',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+}

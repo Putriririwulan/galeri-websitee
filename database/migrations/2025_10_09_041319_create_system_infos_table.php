@@ -1,0 +1,31 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('system_infos', function (Blueprint $table) {
+            $table->id();
+            $table->string('system_name')->default('Galeri Sekolah');
+            $table->string('system_version')->default('v1.0');
+            $table->string('database_type')->default('MySQL');
+            $table->enum('status', ['aktif', 'maintenance'])->default('aktif');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('system_infos');
+    }
+};

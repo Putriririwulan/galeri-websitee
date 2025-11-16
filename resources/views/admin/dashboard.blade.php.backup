@@ -1,0 +1,410 @@
+@extends('layouts.app')
+
+@section('content')
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background: #0f172a;
+        color: #e2e8f0;
+        min-height: 100vh;
+    }
+
+    /* ==================== CONTAINER ==================== */
+    .container {
+        position: relative;
+        z-index: 2;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    /* ==================== HEADER SECTION ==================== */
+    .gallery-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+        padding: 2rem;
+        background: #1e293b;
+        backdrop-filter: none;
+        border-radius: 12px;
+        border: 1px solid #334155;
+        box-shadow: none;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .gallery-header h1 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin: 0;
+        letter-spacing: 0;
+        font-family: 'Inter', sans-serif;
+        color: #f1f5f9;
+    }
+
+    .stats-bar {
+        display: flex;
+        gap: 1.5rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .stat-item {
+        text-align: center;
+        padding: 1rem 1.5rem;
+        background: #0f172a;
+        border-radius: 10px;
+        border: 1px solid #334155;
+        backdrop-filter: none;
+        transition: all 0.2s;
+    }
+
+    .stat-item:hover {
+        border-color: #3b82f6;
+        transform: translateY(-2px);
+    }
+
+    .stat-number {
+        display: block;
+        font-size: 2rem;
+        font-weight: 700;
+        color: #3b82f6;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .stat-label {
+        font-size: 0.8rem;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 0.5rem;
+    }
+
+    /* ==================== CARD GRID ==================== */
+    .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+
+    /* ==================== GALLERY CARDS ==================== */
+    .card {
+        background: #1e293b;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #334155;
+        box-shadow: none;
+        display: flex;
+        flex-direction: column;
+        transition: all 0.2s;
+        position: relative;
+        backdrop-filter: none;
+    }
+
+    .card:hover {
+        transform: translateY(-4px);
+        border-color: #3b82f6;
+    }
+
+    .card-image {
+        position: relative;
+        height: 200px;
+        overflow: hidden;
+        background: #334155;
+    }
+
+    .card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: all 0.3s ease;
+    }
+
+    .card:hover img {
+        transform: scale(1.05);
+    }
+
+    .card-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: #3b82f6;
+        color: #ffffff;
+        padding: 0.4rem 0.8rem;
+        border-radius: 8px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        z-index: 2;
+    }
+
+    .no-image-placeholder {
+        height: 200px;
+        background: #334155;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #64748b;
+        font-size: 3rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        flex-grow: 1;
+        position: relative;
+    }
+
+    .card-title {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #f1f5f9;
+        line-height: 1.4;
+    }
+
+    .card-description {
+        margin: 0;
+        font-size: 0.9rem;
+        color: #94a3b8;
+        line-height: 1.6;
+        flex-grow: 1;
+    }
+
+    .card-footer {
+        padding: 1rem 1.5rem;
+        background: #0f172a;
+        border-top: 1px solid #334155;
+        font-size: 0.8rem;
+        color: #64748b;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .footer-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .footer-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .footer-label {
+        color: #94a3b8;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        letter-spacing: 1px;
+    }
+
+    .footer-value {
+        color: #3b82f6;
+        font-weight: 500;
+    }
+
+    /* ==================== SECTION DIVIDER ==================== */
+    .section-divider {
+        margin: 3rem 0;
+        text-align: center;
+        position: relative;
+    }
+
+    .section-divider::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: #334155;
+        z-index: 1;
+    }
+
+    .section-divider-text {
+        background: #1e293b;
+        padding: 0.75rem 2rem;
+        border-radius: 10px;
+        border: 1px solid #334155;
+        color: #3b82f6;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        position: relative;
+        z-index: 2;
+        display: inline-block;
+        font-size: 0.9rem;
+    }
+
+    /* ==================== INFO CARDS ==================== */
+    .info-card {
+        background: #1e293b;
+        border-radius: 12px;
+        border: 1px solid #334155;
+        box-shadow: none;
+        display: flex;
+        flex-direction: column;
+        transition: all 0.2s;
+        position: relative;
+        backdrop-filter: none;
+        overflow: hidden;
+    }
+
+    .info-card:hover {
+        transform: translateY(-4px);
+        border-color: #8b5cf6;
+    }
+
+    .info-card .card-body {
+        background: transparent;
+    }
+
+    .info-card .card-title {
+        color: #8b5cf6;
+    }
+
+    /* ==================== EMPTY STATE ==================== */
+    .empty-state {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 3rem 2rem;
+        color: #64748b;
+        font-size: 1rem;
+        background: #1e293b;
+        border-radius: 12px;
+        border: 1px dashed #334155;
+        backdrop-filter: none;
+    }
+
+    .empty-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+    }
+
+    /* ==================== RESPONSIVE ==================== */
+    @media (max-width: 1024px) {
+        .gallery-header {
+            flex-direction: column;
+            text-align: center;
+            gap: 1.5rem;
+        }
+
+        .stats-bar {
+            flex-direction: row;
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding: 0;
+        }
+
+        .gallery-header {
+            padding: 1.5rem;
+        }
+
+        .gallery-header h1 {
+            font-size: 1.5rem;
+        }
+
+        .stats-bar {
+            flex-direction: column;
+            width: 100%;
+            gap: 1rem;
+        }
+
+        .stat-item {
+            width: 100%;
+        }
+
+        .card-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+                <div class="card-image">
+                    @if($gallery->cover_image)
+                        <img src="{{ asset('storage/'.$gallery->cover_image) }}" alt="{{ $gallery->title }}">
+                    @else
+                        <div class="no-image-placeholder">
+                            📸
+                        </div>
+                    @endif
+                    <div class="card-badge">{{ $gallery->category->name ?? 'General' }}</div>
+                </div>
+
+                <div class="card-body">
+                    <h3 class="card-title">{{ $gallery->title }}</h3>
+                    <p class="card-description">{{ Str::limit($gallery->description, 120, '...') }}</p>
+                </div>
+
+                <div class="card-footer">
+                    <div class="footer-item">
+                        <span class="footer-label">Created</span>
+                        <span class="footer-value">{{ $gallery->created_at->format('d M Y') }}</span>
+                    </div>
+                    <div class="footer-item">
+                        <span class="footer-label">Updated</span>
+                        <span class="footer-value">{{ $gallery->updated_at->format('d M Y') }}</span>
+                    </div>
+                </div>
+            </div>
+        @empty
+            <div class="empty-state">
+                <div class="empty-icon">📸</div>
+                <p>No gallery data available</p>
+            </div>
+        @endforelse
+    </div>
+
+    <!-- Section Divider -->
+    <div class="section-divider">
+        <span class="section-divider-text">Information Center</span>
+    </div>
+
+    <!-- Information Section -->
+    <div class="card-grid">
+        @forelse($informations as $info)
+            <div class="info-card">
+                <div class="card-body">
+                    <h3 class="card-title">{{ $info->title }}</h3>
+                    <p class="card-description">{{ Str::limit($info->content, 150, '...') }}</p>
+                </div>
+                <div class="card-footer">
+                    <div class="footer-item">
+                        <span class="footer-label">Created</span>
+                        <span class="footer-value">{{ $info->created_at->format('d M Y') }}</span>
+                    </div>
+                    <div class="footer-item">
+                        <span class="footer-label">Updated</span>
+                        <span class="footer-value">{{ $info->updated_at->format('d M Y') }}</span>
+                    </div>
+                </div>
+            </div>
+        @empty
+            <div class="empty-state">
+                <div class="empty-icon">ℹ️</div>
+                <p>No information available</p>
+            </div>
+        @endforelse
+    </div>
+</div>
+
+@endsection

@@ -2,6 +2,10 @@
 
 @section('content')
 <style>
+    body {
+        background-color: #ffffff !important;
+    }
+
     .gdetail-wrapper {
         max-width: 1200px;
         margin: 0 auto;
@@ -31,10 +35,10 @@
     }
 
     .gdetail-main {
-        background: #020617;
+        background: #ffffff;
         border-radius: 16px;
         padding: 1.25rem;
-        box-shadow: 0 20px 35px rgba(15,23,42,0.5);
+        box-shadow: 0 20px 35px rgba(15,23,42,0.15);
     }
 
     .gdetail-main img {
@@ -48,7 +52,7 @@
     .gdetail-title {
         font-size: 1.6rem;
         font-weight: 700;
-        color: #e5e7eb;
+        color: #0f172a;
         margin-bottom: 0.75rem;
     }
 
@@ -68,7 +72,7 @@
 
     .gdetail-desc {
         font-size: 0.95rem;
-        color: #cbd5f5;
+        color: #4b5563;
         margin-top: 0.75rem;
     }
 
@@ -155,7 +159,7 @@
         font-size: 1.15rem;
         font-weight: 600;
         margin-bottom: 1rem;
-        color: #e5e7eb; /* teks terang agar terlihat di background gelap */
+        color: #0f172a; /* teks terang agar terlihat di background gelap */
     }
 
     .gdetail-related-grid {

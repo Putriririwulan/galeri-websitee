@@ -443,5 +443,24 @@ body:has(.sidebar):not(:has(.sidebar.collapsed)) .footer-modern {
 document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 
+@if(request()->routeIs('user.tentangkami') || request()->routeIs('user.news.show'))
+    <style>
+        /* Hilangkan garis/border di bawah halaman untuk Tentang Kami & Detail Berita */
+        .footer-bottom {
+            border-top: none !important;
+        }
+
+        /* Sembunyikan garis dekoratif biru di bagian atas footer */
+        .footer-decorative {
+            display: none !important;
+        }
+
+        /* Hilangkan jarak kosong/navy di atas footer */
+        .footer-modern {
+            margin-top: 0 !important;
+        }
+    </style>
+@endif
+
 <!-- Font Awesome CDN -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">

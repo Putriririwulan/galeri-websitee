@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\SystemInfoController;
 use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\User\SearchController;
 use App\Http\Controllers\Admin\FooterController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\User\ContactController as UserContactController;
@@ -59,6 +60,10 @@ Route::get('/agenda/{agenda}', [UserAgendaController::class, 'show'])->name('use
 
 // User News Routes
 Route::get('/berita-terkini', [DashboardController::class, 'allNews'])->name('user.news.index');
+Route::get('/berita-terkini/{news}', [DashboardController::class, 'newsDetail'])->name('user.news.show');
+
+// Global search
+Route::get('/search', [SearchController::class, 'index'])->name('user.search');
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/footer', [FooterController::class, 'edit'])->name('footer.edit');

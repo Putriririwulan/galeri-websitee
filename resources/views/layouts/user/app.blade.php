@@ -334,73 +334,38 @@
             const navLinks = document.querySelectorAll('.nav-link[data-section]');
             const currentPath = window.location.pathname;
             const isContactPage = currentPath.includes('/contact');
-            
-            // Search functionality
+
+            // Search functionality (global search + keyword mapping ke Hubungi Kami)
             const searchForm = document.getElementById('searchForm');
             const searchInput = document.getElementById('searchInput');
-            
-            // Mapping keyword search ke section/halaman
-            const searchMapping = {
-                'beranda': { type: 'page', target: '{{ route("user.dashboard") }}' },
-                'home': { type: 'page', target: '{{ route("user.dashboard") }}' },
-                'berita': { type: 'page', target: '{{ route("user.news.index") }}' },
-                'berita terkini': { type: 'page', target: '{{ route("user.news.index") }}' },
-                'news': { type: 'page', target: '{{ route("user.news.index") }}' },
-                'galeri': { type: 'page', target: '{{ route("user.gallery") }}' },
-                'gallery': { type: 'page', target: '{{ route("user.gallery") }}' },
-                'foto': { type: 'page', target: '{{ route("user.gallery") }}' },
-                'hubungi': { type: 'page', target: '{{ route("user.contact") }}' },
-                'hubungi kami': { type: 'page', target: '{{ route("user.contact") }}' },
-                'kontak': { type: 'page', target: '{{ route("user.contact") }}' },
-                'contact': { type: 'page', target: '{{ route("user.contact") }}' },
-                'agenda': { type: 'page', target: '{{ route("user.agendas.index") }}' },
-                'agenda kegiatan': { type: 'page', target: '{{ route("user.agendas.index") }}' },
-                'kegiatan': { type: 'page', target: '{{ route("user.agendas.index") }}' },
-                // Kategori Galeri - dengan filter kategori (sesuai nama di database)
-                'fasilitas': { type: 'page', target: '{{ route("user.dashboard", ["section" => "galeri", "category" => "Fasilitas"]) }}' },
-                'ekstrakurikuler': { type: 'page', target: '{{ route("user.dashboard", ["section" => "galeri", "category" => "Ekstrakulikuler"]) }}' },
-                'ekstrakulikuler': { type: 'page', target: '{{ route("user.dashboard", ["section" => "galeri", "category" => "Ekstrakulikuler"]) }}' },
-                'ekskul': { type: 'page', target: '{{ route("user.dashboard", ["section" => "galeri", "category" => "Ekstrakulikuler"]) }}' },
-                'lab pplg': { type: 'page', target: '{{ route("user.dashboard", ["section" => "galeri", "category" => "Lab PPLG"]) }}' },
-                'laboratorium pplg': { type: 'page', target: '{{ route("user.dashboard", ["section" => "galeri", "category" => "Lab PPLG"]) }}' },
-                'pplg': { type: 'page', target: '{{ route("user.dashboard", ["section" => "galeri", "category" => "Lab PPLG"]) }}' },
-                'lab tjkt': { type: 'page', target: '{{ route("user.dashboard", ["section" => "galeri", "category" => "Lab TJKT"]) }}' },
-                'laboratorium tjkt': { type: 'page', target: '{{ route("user.dashboard", ["section" => "galeri", "category" => "Lab TJKT"]) }}' },
-                'tjkt': { type: 'page', target: '{{ route("user.dashboard", ["section" => "galeri", "category" => "Lab TJKT"]) }}' },
-                'bengkel tkro': { type: 'page', target: '{{ route("user.dashboard", ["section" => "galeri", "category" => "Bengkel TKRO"]) }}' },
-                'tkro': { type: 'page', target: '{{ route("user.dashboard", ["section" => "galeri", "category" => "Bengkel TKRO"]) }}' },
-                'bengkel tpfl': { type: 'page', target: '{{ route("user.dashboard", ["section" => "galeri", "category" => "Bengkel TPFL"]) }}' },
-                'tpfl': { type: 'page', target: '{{ route("user.dashboard", ["section" => "galeri", "category" => "Bengkel TPFL"]) }}' }
-            };
-            
-            if (searchForm) {
+
+            const contactKeywords = ['hubungi kami', 'hubungi', 'kontak', 'contact'];
+
+            if (searchForm && searchInput) {
                 searchForm.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    
-                    const query = searchInput.value.trim().toLowerCase();
-                    
+
+                    const rawQuery = searchInput.value.trim();
+                    const query = rawQuery.toLowerCase();
+
                     if (!query) {
                         return;
                     }
-                    
-                    // Cari keyword yang cocok
-                    let found = false;
-                    for (const [keyword, destination] of Object.entries(searchMapping)) {
-                        if (query.includes(keyword) || keyword.includes(query)) {
-                            found = true;
-                            // Debug: tampilkan URL yang akan dituju
-                            console.log('Redirecting to:', destination.target);
-                            // Redirect ke halaman
-                            window.location.href = destination.target;
-                            // Clear search input
-                            searchInput.value = '';
-                            break;
-                        }
+
+                    // Mapping khusus untuk Hubungi Kami
+                    const isContactKeyword = contactKeywords.some(kw =>
+                        query === kw || query.includes(kw)
+                    );
+
+                    if (isContactKeyword) {
+                        window.location.href = '{{ route("user.contact") }}';
+                        searchInput.value = '';
+                        return;
                     }
-                    
-                    if (!found) {
-                        alert('Halaman tidak ditemukan. Coba kata kunci: beranda, berita, galeri, hubungi kami, atau kategori galeri (fasilitas, ekstrakurikuler, lab pplg, lab tjkt, bengkel tkro, bengkel tpfl)');
-                    }
+
+                    // Selain itu, arahkan ke halaman hasil pencarian global
+                    const searchUrl = '{{ route("user.search") }}' + '?q=' + encodeURIComponent(rawQuery);
+                    window.location.href = searchUrl;
                 });
             }
             

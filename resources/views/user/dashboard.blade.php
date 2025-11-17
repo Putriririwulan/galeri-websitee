@@ -266,9 +266,9 @@
     padding: 1rem 0 3rem 0;
 }
 
-/* News Cards Section - Same Blue Gradient as About Section */
+/* News Cards Section - remove blue gradient so area di atas footer tidak berwarna biru penuh */
 .gallery-cards-band.news-section {
-    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    background: transparent;
 }
 
 .user-gallery-container {
@@ -472,6 +472,35 @@
     text-decoration: none;
 }
 
+/* Tombol Lihat Semua Galeri */
+.btn-lihat-semua-galeri {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem 2.5rem;
+    border-radius: 0.75rem;
+    background-color: #1e40af;
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.35);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.btn-lihat-semua-galeri svg {
+    display: inline-block;
+}
+
+.btn-lihat-semua-galeri:hover {
+    background-color: #1e3a8a;
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.45);
+    transform: translateY(-1px);
+    text-decoration: none;
+}
+
 /* Button Selengkapnya */
 .btn-selengkapnya {
     margin-top: 0.5rem;
@@ -502,153 +531,173 @@
     font-size: 1rem;
 }
 
-/* ===== News Card - Horizontal Layout ===== */
+/* ===== News Card - Grid Layout for Berita Terkini ===== */
+.news-section .user-gallery-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
 .news-card {
     background: #ffffff !important;
     backdrop-filter: none;
     border-radius: 12px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
     overflow: hidden;
     display: flex;
-    flex-direction: row;
-    height: 200px;
-    width: 100%;
+    flex-direction: column;
+    height: 100%;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .news-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 12px 20px rgba(15, 23, 42, 0.25);
 }
 
-.news-card .image-wrapper {
-    width: 200px;
-    height: 100%;
-    flex-shrink: 0;
+.news-thumb {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 */
     overflow: hidden;
-    border-radius: 12px 0 0 12px;
 }
 
-.news-card .image-wrapper img {
+.news-thumb img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
-    display: block;
+    transition: transform 0.35s ease;
 }
 
-.news-card .card-body {
-    flex: 1;
-    padding: 1.5rem;
+.news-card:hover .news-thumb img {
+    transform: scale(1.05);
+}
+
+.news-category-badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    background: linear-gradient(135deg, #1e3a8a, #2563eb);
+    color: #ffffff;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.news-card-body {
+    padding: 1.25rem 1.25rem 1.35rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    gap: 0.6rem;
+    flex: 1;
 }
 
-.news-card .card-title {
-    font-size: 1.25rem;
-    font-weight: 600;
+.news-meta {
+    font-size: 0.8rem;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.news-meta i {
+    color: #2563eb;
+}
+
+.news-card-title {
+    font-size: 1rem;
+    font-weight: 700;
     color: #111827;
-    margin-bottom: 0.75rem;
     line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-.news-card .card-text {
+.news-card-excerpt {
     font-size: 0.9rem;
-    color: #374151;
+    color: #4b5563;
     line-height: 1.6;
-    margin-bottom: 1rem;
+    flex: 1;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
-.news-card .btn-selengkapnya {
+.news-readmore-btn {
+    margin-top: 0.75rem;
     align-self: flex-start;
-    padding: 0.6rem 1.5rem;
     background: linear-gradient(135deg, #1e3a8a, #2563eb);
-    border: none;
-    border-radius: 10px;
     color: #ffffff;
-    font-size: 0.9rem;
-    font-weight: 700;
-    transition: background 0.2s ease, transform 0.2s ease;
+    padding: 0.55rem 1.35rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.news-card .btn-selengkapnya:hover {
+.news-readmore-btn:hover {
     background: linear-gradient(135deg, #1d4ed8, #3b82f6);
     transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(30, 64, 175, 0.35);
     text-decoration: none;
 }
 
-.news-card .card-footer-dates {
-    display: flex;
-    gap: 3rem;
-    padding: 1.5rem;
-    background: #ffffff !important;
-    border-top: 1px solid #e5e7eb;
-    margin-top: auto;
+#news-loading {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem 0;
+    color: #e5e7eb;
+    font-size: 0.95rem;
 }
 
-.news-card .date-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-}
-
-.news-card .date-label {
-    font-size: 0.7rem;
-    color: #6b7280;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-weight: 500;
-}
-
-/* ===== Restore themed styles for Berita Terkini only ===== */
-#berita.user-gallery-container {
-    background: transparent !important;
-    border-radius: 0;
-    box-shadow: none !important;
-}
-
-/* Old berita styling removed - now using new white card styling */
-
-.news-card .date-value {
+.news-see-all-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 1.4rem;
+    border-radius: 999px;
+    background: #1e3a8a;
+    color: #ffffff;
     font-size: 0.85rem;
-    color: #111827;
     font-weight: 600;
+    text-decoration: none;
+    border: none;
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.35);
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* News Grid - Single Column for Horizontal Cards */
-.news-section .user-gallery-row {
-    grid-template-columns: 1fr !important;
-    gap: 1.5rem;
+.news-see-all-btn:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(37, 99, 235, 0.45);
+    text-decoration: none;
 }
 
-/* Ensure news cards stay horizontal */
-.news-card {
-    display: flex !important;
-    flex-direction: row !important;
-    width: 100%;
-    height: 200px;
+/* Responsive grid: 2 kolom tablet, 1 kolom mobile */
+@media (max-width: 1024px) {
+    .news-section .user-gallery-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 
-/* Responsive News Card */
 @media (max-width: 768px) {
-    .news-card {
-        flex-direction: column;
-        height: auto;
-    }
-    
-    .news-card .image-wrapper {
-        width: 100%;
-        height: 200px;
-        border-radius: 12px 12px 0 0;
-    }
-    
-    .news-card .card-footer-dates {
-        gap: 1.5rem;
+    .news-section .user-gallery-row {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
     }
 }
     background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
@@ -2154,7 +2203,7 @@ div[id]:target {
         </p>
         <div class="hero-buttons">
             <a href="#tentang" class="btn-primary">
-                <span>Get Started</span>
+                <span>Tentang Kami</span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
                 </svg>
@@ -2215,8 +2264,8 @@ div[id]:target {
                         <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
                     </svg>
                 </div>
-                <h3 class="jurusan-card-title">TP</h3>
-                <p class="jurusan-card-subtitle">Teknik Pengelasan</p>
+                <h3 class="jurusan-card-title">TPFL</h3>
+                <p class="jurusan-card-subtitle">Teknik Pengelasan Fabrikasi Logam</p>
                 <p class="jurusan-card-desc">Mempelajari teknik pengelasan, fabrikasi logam, dan konstruksi dengan standar industri internasional.</p>
             </div>
 
@@ -2228,8 +2277,8 @@ div[id]:target {
                         <path d="M12 1v6m0 6v6M5.6 5.6l4.2 4.2m4.2 4.2l4.2 4.2M1 12h6m6 0h6M5.6 18.4l4.2-4.2m4.2-4.2l4.2-4.2"/>
                     </svg>
                 </div>
-                <h3 class="jurusan-card-title">TO</h3>
-                <p class="jurusan-card-subtitle">Teknik Otomotif</p>
+                <h3 class="jurusan-card-title">TKRO</h3>
+                <p class="jurusan-card-subtitle">Teknik Kendaraan Ringan Otomotif</p>
                 <p class="jurusan-card-desc">Menguasai perawatan, perbaikan kendaraan, sistem mesin, kelistrikan, dan teknologi otomotif terbaru.</p>
             </div>
         </div>
@@ -2242,7 +2291,7 @@ div[id]:target {
     <div class="about-simple-container">
         <!-- Text Side -->
         <div class="about-text-content">
-            <div class="about-simple-subtitle">Who We Are?</div>
+            <div class="about-simple-subtitle">Tentang Kami</div>
             <h2 class="about-simple-title">
                 Shrewsbury <span>International School</span>
             </h2>
@@ -2252,7 +2301,7 @@ div[id]:target {
                 Kami bermitra dengan para pionir industri untuk memberikan produk dan layanan berkualitas tinggi dengan biaya yang terjangkau. Kami percaya bahwa "Pengalaman berbicara untuk dirinya sendiri" dan kami berkomitmen pada keunggulan dalam layanan pelanggan.
             </p>
             <a href="{{ route('user.tentangkami') }}" class="about-simple-btn">
-                <span>More About Company</span>
+                <span>Lihat Lebih Detail</span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
                 </svg>
@@ -2311,7 +2360,7 @@ div[id]:target {
 <div class="gallery-cards-band">
 <div class="user-gallery-container">
     <div class="user-gallery-row">  
-        @forelse($galleries as $gallery)
+        @forelse($featuredGalleries as $gallery)
             <div class="user-gallery-card">
                 <div class="image-wrapper">
                     <img src="{{ asset('storage/'.$gallery->cover_image) }}" alt="{{ $gallery->title }}">
@@ -2337,154 +2386,75 @@ div[id]:target {
             </div>
         @empty
             <div class="user-gallery-empty text-center">
-                @if(isset($categoryFilter) && $categoryFilter)
-                    🔍 Tidak ada galeri dengan kategori "{{ $categoryFilter }}"
-                @else
-                    🌟 Belum ada galeri tersedia
-                @endif
+                🌟 Belum ada galeri unggulan tersedia
             </div>
         @endforelse
     </div>
+
+    {{-- Tombol Lihat Semua Galeri --}}
+    <div style="margin-top: 2rem; text-align: center;">
+        <a href="{{ route('user.gallery') }}" class="btn-lihat-semua-galeri">
+            <span style="display:inline-flex; align-items:center; gap:0.5rem;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="14" rx="2" ry="2"/>
+                    <circle cx="8" cy="9" r="1.5"/>
+                    <path d="M13 8h6M13 12h6M8 12h.01"/>
+                </svg>
+                <span>Lihat Semua Galeri</span>
+            </span>
+        </a>
+    </div>
+
 </div>
 </div>
 
 <!-- ===== Berita Terkini Section ===== -->
 <!-- News Header Section - White Background -->
 <div class="gallery-header-band">
-<div id="berita" class="user-gallery-container">
-    <h2 class="user-gallery-title">Berita Terkini</h2>
-</div>
+    <div id="berita" class="user-gallery-container">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:1rem;">
+            <h2 class="user-gallery-title" style="margin-bottom:0;">Berita Terkini</h2>
+            <a href="{{ route('user.news.index') }}" class="news-see-all-btn">Lihat Semua Berita</a>
+        </div>
+    </div>
 </div>
 
 <!-- News Cards Section - Blue Background -->
 <div class="gallery-cards-band news-section">
 <div class="user-gallery-container">
     <div class="user-gallery-row">
+        <div id="news-loading">Memuat berita...</div>
         @forelse($news as $item)
-            <div class="news-card">
-                <div class="image-wrapper">
+            <a href="{{ route('user.news.show', $item->id) }}" class="news-card">
+                <div class="news-thumb">
                     @if($item->image)
                         <img src="{{ asset('storage/'.$item->image) }}" alt="{{ $item->title }}">
                     @else
                         <img src="{{ asset('images/default-news.jpg') }}" alt="{{ $item->title }}">
                     @endif
+                    <span class="news-category-badge">BERITA</span>
                 </div>
-                <div style="display: flex; flex-direction: column; flex: 1;">
-                    <div class="card-body">
-                        <div>
-                            <div class="card-title">{{ $item->title }}</div>
-                            <div class="card-text">{{ Str::limit($item->content, 150, '...') }}</div>
-                        </div>
-                        <button class="btn-selengkapnya" onclick="openNewsModal({{ $item->id }})">
-                            Lihat Selengkapnya
-                        </button>
+                <div class="news-card-body">
+                    <div class="news-meta">
+                        <i class="far fa-calendar-alt"></i>
+                        <span>
+                            @if($item->published_date)
+                                {{ $item->published_date->format('d M Y') }}
+                            @elseif($item->created_at)
+                                {{ $item->created_at->format('d M Y') }}
+                            @else
+                                -
+                            @endif
+                        </span>
                     </div>
-                    <div class="card-footer-dates">
-                        <div class="date-item">
-                            <span class="date-label">Published</span>
-                            <span class="date-value">
-                                @if($item->published_date)
-                                    {{ $item->published_date->format('d M Y') }}
-                                @elseif($item->created_at)
-                                    {{ $item->created_at->format('d M Y') }}
-                                @else
-                                    -
-                                @endif
-                            </span>
-                        </div>
-                        <div class="date-item">
-                            <span class="date-label">Updated</span>
-                            <span class="date-value">
-                                @if($item->updated_at)
-                                    {{ $item->updated_at->format('d M Y') }}
-                                @else
-                                    -
-                                @endif
-                            </span>
-                        </div>
-                    </div>
-                    </div> <!-- end .news-modal-inner -->
+                    <div class="news-card-title">{{ $item->title }}</div>
+                    <div class="news-card-excerpt">{{ Str::limit(strip_tags($item->content), 160, '...') }}</div>
+                    <span class="news-readmore-btn">
+                        Lihat Selengkapnya
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
                 </div>
-            </div>
-
-            <!-- Modal untuk setiap berita -->
-            <div id="newsModal{{ $item->id }}" class="news-modal">
-                <div class="news-modal-content">
-                    <!-- Close Button -->
-                    <button class="news-modal-close-btn" onclick="closeNewsModal({{ $item->id }})">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="18" y1="6" x2="6" y2="18"/>
-                            <line x1="6" y1="6" x2="18" y2="18"/>
-                        </svg>
-                    </button>
-
-                    <!-- Topbar Judul -->
-                    <div class="news-modal-topbar">
-                        Berita Terkini
-                    </div>
-
-                    <div class="news-modal-inner">
-                    <!-- Header dengan Image -->
-                    <div class="news-modal-header-new">
-                        @if($item->image)
-                            <div class="news-modal-image-wrapper">
-                                <img src="{{ asset('storage/'.$item->image) }}" alt="{{ $item->title }}" class="news-modal-image-new">
-                                <div class="news-modal-image-overlay"></div>
-                            </div>
-                        @endif
-                        
-                        <!-- Badge & Date di atas image -->
-                        <div class="news-modal-badge-container">
-                            <span class="news-modal-badge-new">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
-                                </svg>
-                                BERITA
-                            </span>
-                            <span class="news-modal-date-new">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                                    <line x1="16" y1="2" x2="16" y2="6"/>
-                                    <line x1="8" y1="2" x2="8" y2="6"/>
-                                    <line x1="3" y1="10" x2="21" y2="10"/>
-                                </svg>
-                                {{ $item->published_date ? $item->published_date->format('d M Y') : ($item->created_at ? $item->created_at->format('d M Y') : '-') }}
-                            </span>
-                        </div>
-                    </div>
-                    
-                    <!-- Title & Content -->
-                    <div class="news-modal-body-new">
-                        <h2 class="news-modal-title-new">{{ $item->title }}</h2>
-                        <div class="news-modal-content-text">
-                            <p>{{ $item->content }}</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Footer dengan info Published & Updated -->
-                    <div class="news-modal-footer-new">
-                        <div class="news-modal-info-item">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"/>
-                                <polyline points="12 6 12 12 16 14"/>
-                            </svg>
-                            <div>
-                                <span class="info-label">Published</span>
-                                <span class="info-value">{{ $item->published_date ? $item->published_date->format('d M Y, H:i') : ($item->created_at ? $item->created_at->format('d M Y, H:i') : '-') }}</span>
-                            </div>
-                        </div>
-                        <div class="news-modal-info-item">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0118.8-4.3M22 12.5a10 10 0 01-18.8 4.2"/>
-                            </svg>
-                            <div>
-                                <span class="info-label">Updated</span>
-                                <span class="info-value">{{ $item->updated_at ? $item->updated_at->format('d M Y, H:i') : '-' }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </a>
         @empty
             <div class="user-gallery-empty text-center">📰 Belum ada berita tersedia</div>
         @endforelse
@@ -2605,42 +2575,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Fungsi untuk membuka modal berita
-function openNewsModal(newsId) {
-    const modal = document.getElementById('newsModal' + newsId);
-    if (modal) {
-        modal.style.display = 'block';
-        document.body.style.overflow = 'hidden'; // Prevent scrolling
-    }
-}
-
-// Fungsi untuk menutup modal berita
-function closeNewsModal(newsId) {
-    const modal = document.getElementById('newsModal' + newsId);
-    if (modal) {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto'; // Enable scrolling
-    }
-}
-
-// Tutup modal jika user klik di luar modal content
-window.onclick = function(event) {
-    if (event.target.classList.contains('news-modal')) {
-        event.target.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
-}
-
-// Tutup modal dengan tombol ESC
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        const modals = document.querySelectorAll('.news-modal');
-        modals.forEach(modal => {
-            if (modal.style.display === 'block') {
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-        });
-    }
+// Sembunyikan loading state berita setelah DOM siap
+document.addEventListener('DOMContentLoaded', function () {
+	const newsLoading = document.getElementById('news-loading');
+	if (newsLoading) {
+		newsLoading.style.display = 'none';
+	}
 });
 </script>

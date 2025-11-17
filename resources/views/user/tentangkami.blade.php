@@ -592,13 +592,13 @@ body {
 <div class="about-modern-section">
     <div class="about-container">
         
-        <!-- Back to Home Link -->
+        <!-- Kembali Link -->
         <div style="margin-bottom: 1.5rem;">
             <a href="{{ route('user.dashboard') }}" class="back-link">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M19 12H5M12 19l-7-7 7-7"/>
                 </svg>
-                <span>Back to Home</span>
+                <span>Kembali</span>
             </a>
         </div>
         
@@ -751,7 +751,7 @@ body {
                         </svg>
                     </div>
                     <h3 class="feature-title">Fasilitas Lengkap</h3>
-                    <p class="feature-desc">Laboratorium dan workshop dengan peralatan modern untuk mendukung pembelajaran praktik.</p>
+                    <p class="feature-desc">Lab dan Bengkel dengan peralatan modern untuk mendukung pembelajaran praktik.</p>
                 </div>
 
                 <div class="feature-card">
@@ -761,7 +761,7 @@ body {
                         </svg>
                     </div>
                     <h3 class="feature-title">Siap Kerja</h3>
-                    <p class="feature-desc">Program magang dan kerjasama industri untuk mempersiapkan siswa memasuki dunia kerja.</p>
+                    <p class="feature-desc">Program magang dan kerjasama industri untuk mempersiapkan siswa/i memasuki dunia kerja.</p>
                 </div>
 
                 <div class="feature-card">

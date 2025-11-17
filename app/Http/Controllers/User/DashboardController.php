@@ -18,33 +18,40 @@ class DashboardController extends Controller
         // Ambil parameter kategori dari URL
         $categoryFilter = request()->get('category', null);
         
-        // Ambil data galeri dengan filter kategori jika ada
+        // Ambil data galeri dengan filter kategori jika ada (untuk section galeri umum & pencarian)
         if ($categoryFilter) {
             // Filter galeri berdasarkan nama kategori
             $galleries = Gallery::with('category')
-                ->whereHas('category', function($query) use ($categoryFilter) {
+                ->whereHas('category', function ($query) use ($categoryFilter) {
                     $query->where('name', $categoryFilter);
                 })
                 ->latest()
                 ->get();
         } else {
-            // Tampilkan semua galeri
+            // Tampilkan semua galeri (tanpa batasan) untuk keperluan lain di beranda
             $galleries = Gallery::with('category')->latest()->get();
         }
         
         $categories = Category::all();
         $data = TentangKami::first();
         
-        // Ambil semua berita terkini yang sudah published (tanpa batas jumlah)
+        // Ambil maksimal 6 berita terkini yang sudah published untuk beranda
         $news = News::where('status', 'published')
                     ->orderBy('published_date', 'desc')
+                    ->take(6)
                     ->get();
         
         // Ambil data tentang kami (Sejarah & Visi Misi)
         $abouts = About::all();
 
         // Ambil 1 galeri terbaru per kategori untuk ditampilkan di beranda (Galeri Sekolah)
-        $featuredGalleries = $galleries->sortByDesc('created_at')->unique('category_id')->values();
+        // Urutkan berdasarkan tanggal upload terbaru dan batasi maksimal 6 galeri
+        $featuredGalleries = Gallery::with('category')
+            ->latest()
+            ->get()
+            ->unique('category_id')
+            ->take(6)
+            ->values();
 
         // Kirim ke view
         return view('user.dashboard', compact('galleries', 'featuredGalleries', 'categories', 'data', 'news', 'abouts', 'categoryFilter'));
@@ -59,6 +66,17 @@ class DashboardController extends Controller
             'title' => 'Tentang Kami',
             'tentangKami' => $tentangKami,
             'about' => $about
+        ]);
+    }
+
+    /**
+     * Menampilkan halaman detail satu berita untuk pengguna
+     */
+    public function newsDetail(News $news)
+    {
+        return view('user.news.news_detail', [
+            'title' => $news->title,
+            'news'  => $news,
         ]);
     }
 

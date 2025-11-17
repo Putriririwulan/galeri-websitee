@@ -48,9 +48,54 @@
 
     .galeri-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
         gap: 1.75rem;
         margin-bottom: 2rem;
+        transition: all 0.3s ease;
+    }
+
+    /* Layout variants */
+    .galeri-grid.layout-2-cols {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .galeri-grid.layout-3-cols {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .galeri-grid.layout-4-cols {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .galeri-grid.layout-masonry {
+        display: block;
+        column-count: 3;
+        column-gap: 1.75rem;
+    }
+
+    .galeri-grid.layout-masonry .galeri-card {
+        break-inside: avoid;
+        margin-bottom: 1.75rem;
+    }
+
+    .galeri-grid.layout-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .galeri-grid.layout-list .galeri-card {
+        display: flex;
+        align-items: stretch;
+    }
+
+    .galeri-grid.layout-list .galeri-image-wrapper {
+        flex: 0 0 220px;
+        height: 160px;
+    }
+
+    .galeri-grid.layout-list .galeri-card-body {
+        flex: 1;
+        padding: 1rem 1.25rem;
     }
 
     .galeri-card {
@@ -139,6 +184,60 @@
         margin: 2rem 0 1rem;
     }
 
+    /* Toolbar layout control */
+    .galeri-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        gap: 1rem;
+    }
+
+    .galeri-toolbar-title {
+        font-size: 0.95rem;
+        color: #6b7280;
+    }
+
+    .galeri-layout-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        background: #e5e7eb;
+        padding: 0.25rem;
+        border-radius: 999px;
+    }
+
+    .galeri-layout-btn {
+        border: none;
+        background: transparent;
+        color: #4b5563;
+        width: 32px;
+        height: 32px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+        font-size: 0.85rem;
+    }
+
+    .galeri-layout-btn i {
+        pointer-events: none;
+    }
+
+    .galeri-layout-btn:hover {
+        background: rgba(37, 99, 235, 0.08);
+        color: #1d4ed8;
+        transform: translateY(-1px);
+    }
+
+    .galeri-layout-btn.is-active {
+        background: #1e3a8a;
+        color: #ffffff;
+        box-shadow: 0 8px 18px rgba(30, 64, 175, 0.35);
+    }
+
     /* Modal */
     .galeri-modal-img {
         max-height: 70vh;
@@ -152,6 +251,62 @@
 
         .galeri-hero-title {
             font-size: 1.8rem;
+        }
+
+        .galeri-toolbar {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .galeri-layout-toggle {
+            align-self: stretch;
+            justify-content: flex-start;
+        }
+
+        .galeri-grid.layout-2-cols,
+        .galeri-grid.layout-3-cols,
+        .galeri-grid.layout-4-cols {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+        }
+
+        .galeri-grid.layout-masonry {
+            column-count: 1;
+        }
+    }
+
+    @media (min-width: 641px) and (max-width: 1024px) {
+        .galeri-grid.layout-2-cols {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .galeri-grid.layout-3-cols {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .galeri-grid.layout-4-cols {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .galeri-grid.layout-masonry {
+            column-count: 2;
+        }
+    }
+
+    @media (min-width: 1025px) {
+        .galeri-grid.layout-2-cols {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .galeri-grid.layout-3-cols {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .galeri-grid.layout-4-cols {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .galeri-grid.layout-masonry {
+            column-count: 3;
         }
     }
 </style>
@@ -172,7 +327,29 @@
 </div>
 
 <div class="galeri-container">
-    <div class="galeri-grid">
+    <div class="galeri-toolbar">
+        <div class="galeri-toolbar-title">
+            Tampilan galeri
+        </div>
+        <div class="galeri-layout-toggle" aria-label="Pengaturan tampilan galeri">
+            <button type="button" class="galeri-layout-btn" data-layout="2-cols" title="2 Kolom">
+                <i class="fas fa-border-all"></i>
+            </button>
+            <button type="button" class="galeri-layout-btn" data-layout="3-cols" title="3 Kolom">
+                <i class="fas fa-th-large"></i>
+            </button>
+            <button type="button" class="galeri-layout-btn" data-layout="4-cols" title="4 Kolom">
+                <i class="fas fa-th"></i>
+            </button>
+            <button type="button" class="galeri-layout-btn" data-layout="masonry" title="Masonry">
+                <i class="fas fa-grip-vertical"></i>
+            </button>
+            <button type="button" class="galeri-layout-btn" data-layout="list" title="List">
+                <i class="fas fa-list"></i>
+            </button>
+        </div>
+    </div>
+    <div class="galeri-grid layout-3-cols">
         @forelse($galleries as $gallery)
             <div class="galeri-card" data-bs-toggle="modal" data-bs-target="#galeriModal" data-image="{{ $gallery->cover_image ? asset('storage/'.$gallery->cover_image) : asset('images/default.jpg') }}" data-title="{{ $gallery->title }}" data-description="{{ $gallery->description }}">
                 <div class="galeri-image-wrapper">
@@ -232,6 +409,7 @@
         const modalTitle = document.getElementById('galeriModalLabel');
         const modalDesc = document.getElementById('galeriModalDesc');
 
+        // Lightbox modal
         if (modal) {
             modal.addEventListener('show.bs.modal', function (event) {
                 const card = event.relatedTarget;
@@ -244,6 +422,49 @@
                 modalImg.src = image;
                 modalTitle.textContent = title;
                 modalDesc.textContent = description;
+            });
+        }
+
+        // Layout toggle
+        const layoutKey = 'userGalleryLayout';
+        const grid = document.querySelector('.galeri-grid');
+        const layoutButtons = document.querySelectorAll('.galeri-layout-btn');
+        const availableLayouts = ['2-cols', '3-cols', '4-cols', 'masonry', 'list'];
+
+        if (grid && layoutButtons.length) {
+            const savedLayout = localStorage.getItem(layoutKey) || '3-cols';
+
+            function applyLayout(layout) {
+                if (!availableLayouts.includes(layout)) {
+                    layout = '3-cols';
+                }
+
+                availableLayouts.forEach(function (l) {
+                    grid.classList.remove('layout-' + l);
+                });
+                grid.classList.add('layout-' + layout);
+
+                layoutButtons.forEach(function (btn) {
+                    const btnLayout = btn.getAttribute('data-layout');
+                    if (btnLayout === layout) {
+                        btn.classList.add('is-active');
+                    } else {
+                        btn.classList.remove('is-active');
+                    }
+                });
+
+                localStorage.setItem(layoutKey, layout);
+            }
+
+            // Inisialisasi layout dari localStorage
+            applyLayout(savedLayout);
+
+            // Event listener untuk tombol toggle
+            layoutButtons.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    const layout = btn.getAttribute('data-layout');
+                    applyLayout(layout);
+                });
             });
         }
     });
